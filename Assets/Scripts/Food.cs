@@ -18,9 +18,8 @@ public class Food : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Snake")
-        {
-            Debug.Log("Food Eaten");
+        if (collision.tag == "Snake1head") 
+        { 
             RandomizePosition();
         }
     }

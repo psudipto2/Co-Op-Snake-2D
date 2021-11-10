@@ -2,16 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Snake : MonoBehaviour
 {
     private Vector2 direction;
     public GameObject Snake_Head;
-    private List<Transform> segments;
+    private List<Transform> snakeBodies;
+    public Transform SnakeBodyPrefab;
     private void Start()
     {
-        segments = new List<Transform>();
-        segments.Add(this.transform);
+        snakeBodies = new List<Transform>();
+        snakeBodies.Add(this.transform);
     }
     private void Update()
     {
@@ -47,7 +49,39 @@ public class Snake : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        for(int i = snakeBodies.Count - 1; i > 0; i--)
+        {
+            snakeBodies[i].position = snakeBodies[i - 1].position;
+        }
         this.transform.position = new Vector3(Mathf.Round(this.transform.position.x)+ direction.x, Mathf.Round(this.transform.position.y) + direction.y);
         //this.transform.eulerAngles = new Vector3(0, 0, 180);
     }
+    private void grow()
+    {
+        Transform SnakeBody = Instantiate(this.SnakeBodyPrefab);
+        SnakeBody.position = snakeBodies[snakeBodies.Count - 1].position;
+        snakeBodies.Add(SnakeBody);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Food")
+        { 
+            grow();
+        }
+        else if (collision.tag == "Wall")
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
+
+    /*private void ResetState()
+    {
+        for(int i = 1; i <= snakeBodies.Count; i++)
+        {
+            Destroy(snakeBodies[i].gameObject);
+        }
+        snakeBodies.Clear();
+        snakeBodies.Add(this.transform);
+        this.transform.position = Vector3.zero;
+    }*/
 }
