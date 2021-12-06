@@ -1,72 +1,109 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(BoxCollider2D))]
 public class Snake2 : MonoBehaviour
 {
-    private Vector2 direction;
-    public GameObject Snake_Head;
-    private List<Transform> snakeBodies;
-    public Transform SnakeBodyPrefab;
+    private List<Transform> _segments = new List<Transform>();
+    public Transform segmentPrefab;
+    public Vector2 direction = Vector2.right;
+    public int initialSize = 4;
+
     private void Start()
     {
-        snakeBodies = new List<Transform>();
-        snakeBodies.Add(this.transform);
-    }
-    private void Update()
-    {
-        HandleInput();
+        ResetState();
     }
 
-    private void HandleInput()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow)&&direction!=Vector2.down)
+        // Only allow turning up or down while moving in the x-axis
+        if (this.direction.x != 0f)
         {
-            direction = Vector2.up;
-            transform.eulerAngles = new Vector3(0, 0, 0);  
+            if ( Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                this.direction = Vector2.up;
+            }
+            else if ( Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                this.direction = Vector2.down;
+            }
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow)&& direction!=Vector2.up)
+        // Only allow turning left or right while moving in the y-axis
+        else if (this.direction.y != 0f)
         {
-            direction = Vector2.down;
-            transform.eulerAngles = new Vector3(0, 0, 180);
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && direction != Vector2.right)
-        {
-            direction = Vector2.left;
-            transform.eulerAngles = new Vector3(0, 0, 90);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow) && direction != Vector2.left)
-        {
-            direction = Vector2.right;
-            transform.eulerAngles = new Vector3(0, 0, -90);
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                this.direction = Vector2.right;
+            }
+            else if ( Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                this.direction = Vector2.left;
+            }
         }
     }
+
     private void FixedUpdate()
     {
-        for(int i = snakeBodies.Count - 1; i > 0; i--)
+        // Set each segment's position to be the same as the one it follows. We
+        // must do this in reverse order so the position is set to the previous
+        // position, otherwise they will all be stacked on top of each other.
+        for (int i = _segments.Count - 1; i > 0; i--)
         {
-            snakeBodies[i].position = snakeBodies[i - 1].position;
+            _segments[i].position = _segments[i - 1].position;
         }
-        this.transform.position = new Vector3(Mathf.Round(this.transform.position.x)+ direction.x, Mathf.Round(this.transform.position.y) + direction.y);
+
+        // Move the snake in the direction it is facing
+        // Round the values to ensure it aligns to the grid
+        float x = Mathf.Round(this.transform.position.x) + this.direction.x;
+        float y = Mathf.Round(this.transform.position.y) + this.direction.y;
+
+        this.transform.position = new Vector2(x, y);
     }
-    private void grow()
+
+    public void Grow()
     {
-        Transform SnakeBody = Instantiate(this.SnakeBodyPrefab);
-        SnakeBody.position = snakeBodies[snakeBodies.Count - 1].position;
-        snakeBodies.Add(SnakeBody);
+        Transform segment = Instantiate(this.segmentPrefab);
+        segment.position = _segments[_segments.Count - 1].position;
+
+        _segments.Add(segment);
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    public void ResetState()
     {
-        if (collision.tag == "Food")
-        { 
-            grow();
-        }
-        else if (collision.tag == "Wall"|| collision.tag == "Snake2Body")
+        this.direction = Vector2.right;
+        this.transform.position = Vector3.zero;
+
+        // Start at 1 to skip destroying the head
+        for (int i = 1; i < _segments.Count; i++)
         {
-            SceneManager.LoadScene(1);
+            Destroy(_segments[i].gameObject);
         }
+
+        // Clear the list but add back this as the head
+        _segments.Clear();
+        _segments.Add(this.transform);
+
+        // -1 since the head is already in the list
+        for (int i = 0; i < this.initialSize - 1; i++)
+        {
+            Grow();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Food")
+        {
+            Grow();
+        }
+        else if (other.tag == "Snake2Body" || other.tag == "Wall")
+        {
+            ResetState();
+        }
+    }
+    public int Score()
+    {
+        return _segments.Count - initialSize;
     }
 
 }
