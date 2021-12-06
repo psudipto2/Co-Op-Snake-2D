@@ -18,8 +18,12 @@ public class Food : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Snake1head") 
+        if (collision.tag == "Snake1head"|| collision.tag=="Snake2head") 
         { 
+            RandomizePosition();
+        }
+        else if(collision.tag == "Snake1Body"||collision.tag=="Snake2Body")
+        {
             RandomizePosition();
         }
     }

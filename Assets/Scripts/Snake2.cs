@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Snake : MonoBehaviour
+public class Snake2 : MonoBehaviour
 {
     private Vector2 direction;
     public GameObject Snake_Head;
@@ -22,22 +22,22 @@ public class Snake : MonoBehaviour
 
     private void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.W)&&direction!=Vector2.down)
+        if (Input.GetKeyDown(KeyCode.UpArrow)&&direction!=Vector2.down)
         {
             direction = Vector2.up;
             transform.eulerAngles = new Vector3(0, 0, 0);  
         }
-        if (Input.GetKeyDown(KeyCode.S)&& direction!=Vector2.up)
+        if (Input.GetKeyDown(KeyCode.DownArrow)&& direction!=Vector2.up)
         {
             direction = Vector2.down;
             transform.eulerAngles = new Vector3(0, 0, 180);
         }
-        if (Input.GetKeyDown(KeyCode.A) && direction != Vector2.right)
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && direction != Vector2.right)
         {
             direction = Vector2.left;
             transform.eulerAngles = new Vector3(0, 0, 90);
         }
-        if (Input.GetKeyDown(KeyCode.D) && direction != Vector2.left)
+        if (Input.GetKeyDown(KeyCode.RightArrow) && direction != Vector2.left)
         {
             direction = Vector2.right;
             transform.eulerAngles = new Vector3(0, 0, -90);
@@ -63,7 +63,7 @@ public class Snake : MonoBehaviour
         { 
             grow();
         }
-        else if (collision.tag == "Wall"|| collision.tag == "Snake1Body")
+        else if (collision.tag == "Wall"|| collision.tag == "Snake2Body")
         {
             SceneManager.LoadScene(0);
         }

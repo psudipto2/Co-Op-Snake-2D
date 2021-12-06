@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5359500794425933492}
   - component: {fileID: 6647841598194190166}
   m_Layer: 0
-  m_Name: Snake Body
-  m_TagString: Snake
+  m_Name: Snake Body 1
+  m_TagString: Snake1Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,7 +96,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00512743, y: -0.012821674}
+  m_Offset: {x: -0.022223473, y: 0.02137062}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -107,5 +107,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0146377, y: 0.99921894}
+  m_Size: {x: 0.57014394, y: 0.58891684}
   m_EdgeRadius: 0
