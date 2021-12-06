@@ -65,7 +65,7 @@ public class Snake : MonoBehaviour
         }
         else if (collision.tag == "Wall"|| collision.tag == "Snake1Body")
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
     }
 
