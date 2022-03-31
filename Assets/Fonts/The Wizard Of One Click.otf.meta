@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 6dde07a6dfd06904ea26ec4f2cef6fa1
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - The WIzard Of One Click
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 6bb9eb6f04cd5df48bebc3fc170e9eb1, type: 3}
+  - {fileID: 12800000, guid: 4619782bbc8f1e9449920a61efd52497, type: 3}
+  - {fileID: 12800000, guid: d6fb9a28cb51a8046951d1563a02a6d0, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
